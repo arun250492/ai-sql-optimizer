@@ -1,0 +1,6 @@
+openai
+gradio
+sqlalchemy
+psycopg2-binary
+pymysql
+dotenv
