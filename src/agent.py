@@ -1,9 +1,11 @@
+import openai
+
 class SQLAgent:
-    def __init__(self, openai_api_key):
-        self.openai_api_key = openai_api_key
+    def __init__(self, OPENAI_API_KEY):
+        self.OPENAI_API_KEY = OPENAI_API_KEY
 
     def analyze_query(self, sql_query):
-        # Logic to send the SQL query to OpenAI API for analysis
+        # Logic to analyze the SQL query for performance issues
         pass
 
     def request_schema(self, database_connection):
@@ -12,6 +14,17 @@ class SQLAgent:
 
     def optimize_query(self, sql_query):
         # Logic to initiate the optimization process
+        openai.api_key = self.OPENAI_API_KEY
+        response = openai.ChatCompletion.create(
+            model="gpt-3.5-turbo",
+            messages=[
+            {"role": "system", "content": "You are a SQL expert. Optimize the following SQL query for better performance and explain your changes."},
+            {"role": "user", "content": sql_query}
+            ],
+            max_tokens=500,
+            temperature=0.2
+        )
+        return response['choices'][0]['message']['content']
         pass
 
     def execute(self, sql_query, database_connection):
